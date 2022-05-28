@@ -8,6 +8,6 @@ export class AppController {
   @Get()
   @Render('index')
   root() {
-    return { message: 'URL Shortener' };
+    return { title: 'The Shortest URL' };
   }
 }

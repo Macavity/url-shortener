@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "copy:assets": "cp -rv views/ dist/views",
+    "copy:assets": "rm -rf dist/ && mkdir -p dist/views && cp -rv views/ dist/views",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prestart": "npm run copy:assets",
     "start": "nest start",
@@ -21,8 +21,7 @@
     "test:cypress": "npx cypress open",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^10.0.2",
@@ -34,16 +33,22 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
     "@types/dotenv": "^8.2.0",
+    "cache-manager": "^3.6.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "dotenv": "^16.0.1",
     "hbs": "^4.2.0",
+    "nanoid": "^3.3.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
+    "@types/cache-manager": "^3.4.3",
     "@types/express": "^4.17.13",
     "@types/jest": "27.4.1",
     "@types/node": "^16.0.0",
@@ -63,22 +68,5 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }
