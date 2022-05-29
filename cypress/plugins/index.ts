@@ -20,6 +20,15 @@ export default async (
         module: {
           rules: [
             {
+              test: /\.ts$/,
+              exclude: [/node_modules/],
+              use: [
+                {
+                  loader: 'ts-loader',
+                },
+              ],
+            },
+            {
               test: /\.feature$/,
               use: [
                 {
@@ -34,6 +43,5 @@ export default async (
     }),
   );
 
-  // Make sure to return the config object as it might have been modified by the plugin.
   return config;
 };
