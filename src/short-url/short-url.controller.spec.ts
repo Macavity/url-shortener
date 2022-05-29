@@ -1,4 +1,7 @@
-import { UnprocessableEntityException } from '@nestjs/common';
+import {
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CacheManagerMockProvider } from '../../test/mocks/cache-manager.mock';
 import { ShortUrlController } from './short-url.controller';
@@ -27,7 +30,7 @@ describe('ShortUrlController', () => {
   });
 
   describe('Create Short URL', () => {
-    it('saves the url, if provided a valid DTO', async () => {
+    it('calls the service to create a new entry', async () => {
       const createSpy = jest.spyOn(service, 'create');
       await controller.create({ original: 'https://google.de' });
 
@@ -40,6 +43,41 @@ describe('ShortUrlController', () => {
       expect(() => {
         controller.create({ original: 'Horst Müller' });
       }).toThrow(UnprocessableEntityException);
+    });
+
+    it('allows setting the short code in the request DTO', async () => {
+      const createSpy = jest.spyOn(service, 'create');
+      await controller.create({
+        original: 'https://google.de',
+        short: 'abcd',
+      });
+
+      expect(createSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Retrieve Short URL', () => {
+    it('calls the service to find the matching entry', async () => {
+      const spy = jest.spyOn(service, 'findByKey');
+      await controller.get('asdf');
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should fail when not given an existing short code', async () => {
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
+
+      await expect(async () => {
+        await controller.get('not-valid');
+      }).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('Reset Cache during runtime', () => {
+    it('should call the service to reset the cache', async () => {
+      const spy = jest.spyOn(service, 'reset');
+      await controller.reset();
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

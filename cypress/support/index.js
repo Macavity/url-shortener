@@ -1,3 +1,5 @@
+import './commands';
+
 beforeEach(function () {
   Object.assign(this, {
     response: null,
