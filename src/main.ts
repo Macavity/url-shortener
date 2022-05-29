@@ -4,12 +4,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { initializeSwagger } from './plugins/swagger';
 
+async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   await initializeSwagger(app);
-  //app.useStaticAssets(join(__dirname, '..', 'public'));
   app.useGlobalPipes(new ValidationPipe());
-  //app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
   await app.listen(3000);
