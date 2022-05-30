@@ -1,9 +1,11 @@
 import {
+  BadRequestException,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CacheManagerMockProvider } from '../../test/mocks/cache-manager.mock';
+import { ShortUrl } from './entities/short-url.entity';
 import { ShortUrlController } from './short-url.controller';
 import { ShortUrlService } from './short-url.service';
 
@@ -32,6 +34,7 @@ describe('ShortUrlController', () => {
   describe('Create Short URL', () => {
     it('calls the service to create a new entry', async () => {
       const createSpy = jest.spyOn(service, 'create');
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
       await controller.create({ original: 'https://google.de' });
 
       expect(createSpy).toHaveBeenCalled();
@@ -39,20 +42,38 @@ describe('ShortUrlController', () => {
 
     it('fails when provided with an invalid URL', async () => {
       jest.spyOn(service, 'create');
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
 
-      expect(() => {
-        controller.create({ original: 'Horst Müller' });
-      }).toThrow(UnprocessableEntityException);
+      await expect(async () => {
+        await controller.create({ original: 'Horst Müller' });
+      }).rejects.toThrow(UnprocessableEntityException);
     });
 
     it('allows setting the short code in the request DTO', async () => {
       const createSpy = jest.spyOn(service, 'create');
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
       await controller.create({
         original: 'https://google.de',
         short: 'abcd',
       });
 
       expect(createSpy).toHaveBeenCalled();
+    });
+
+    it('fails with Bad Request when called with an existing key', async () => {
+      const createSpy = jest.spyOn(service, 'create');
+      const mockExistingShortUrl = new ShortUrl(
+        'http://somewhere-else.com',
+        'abcd',
+      );
+      jest.spyOn(service, 'findByKey').mockResolvedValue(mockExistingShortUrl);
+
+      await expect(async () => {
+        await controller.create({
+          original: 'https://google.de',
+          short: 'abcd',
+        });
+      }).rejects.toThrow(BadRequestException);
     });
   });
 

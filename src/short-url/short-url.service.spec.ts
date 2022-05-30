@@ -2,6 +2,7 @@ import { CACHE_MANAGER } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Cache } from 'cache-manager';
 import { CacheManagerMockProvider } from '../../test/mocks/cache-manager.mock';
+import { ShortUrl } from './entities/short-url.entity';
 import { ShortUrlService } from './short-url.service';
 
 describe('ShortUrlService', () => {
@@ -25,6 +26,7 @@ describe('ShortUrlService', () => {
   describe('create', () => {
     it('should store the original url into the cache', async () => {
       const spy = jest.spyOn(cache, 'set');
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
 
       const shortUrl = await service.create({
         original: testUrl,
@@ -35,6 +37,7 @@ describe('ShortUrlService', () => {
     });
 
     it('should create unique short urls for every call', async () => {
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
       const shortUrl = await service.create({
         original: testUrl,
       });
@@ -44,6 +47,7 @@ describe('ShortUrlService', () => {
     });
 
     it('allows providing a set short code as part of the DTO', async () => {
+      jest.spyOn(service, 'findByKey').mockResolvedValue(null);
       const shortUrl = await service.create({
         original: testUrl,
         short: 'abcd',
@@ -51,6 +55,25 @@ describe('ShortUrlService', () => {
 
       expect(shortUrl.original).toEqual(testUrl);
       expect(shortUrl.short).toEqual('abcd');
+    });
+
+    it('generates new short codes until one is found which is not in the storage yet', async () => {
+      let i = 0;
+      const findKeySpy = jest
+        .spyOn(service, 'findByKey')
+        .mockImplementation(() => {
+          if (i++ < 2) {
+            return Promise.resolve(new ShortUrl('', ''));
+          }
+          return Promise.resolve(null);
+        });
+
+      await service.create({
+        original: testUrl,
+        short: 'abcd',
+      });
+
+      expect(findKeySpy).toHaveBeenCalledTimes(3);
     });
   });
 
