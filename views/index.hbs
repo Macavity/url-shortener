@@ -28,9 +28,13 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="originalUrl" class="form-label">Original URL</label>
-                    <input type="url" class="form-control" id="originalUrl" placeholder="https://www.your-url.com">
+                    <input type="url" class="form-control" id="originalUrl" data-cy="url" value="" placeholder="https://www.your-url.com">
                 </div>
-                <button id="submitButton" class="btn btn-primary">Submit</button>
+                <div id="errorWrapper" data-cy="error" class="mt-1 alert alert-danger" role="alert" style="display: none"></div>
+                <div id="successWrapper" data-cy="success" class="mt-1 alert alert-success" role="alert" style="display: none">
+                    Your short url was created: <a id="shortUrlResult" href="">OUTPUT</a>
+                </div>
+                <button id="submitButton" data-cy="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>

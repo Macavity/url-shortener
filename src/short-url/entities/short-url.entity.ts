@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ShortUrl {
+export class ShortUrl implements IShortUrl {
   @ApiProperty({
     description: 'The original url',
     example: 'https://www.example.com/page/subpage.html?param=a',
