@@ -8,12 +8,12 @@ import { initializeSwagger } from './plugins/swagger';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  await initializeSwagger(app);
+  initializeSwagger(app);
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.useGlobalPipes(new ValidationPipe());
   app.setViewEngine('hbs');
 
-  await app.listen(process.env.APP_PORT);
+  await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 

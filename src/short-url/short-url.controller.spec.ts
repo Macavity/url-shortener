@@ -61,7 +61,7 @@ describe('ShortUrlController', () => {
     });
 
     it('fails with Bad Request when called with an existing key', async () => {
-      const createSpy = jest.spyOn(service, 'create');
+      jest.spyOn(service, 'create');
       const mockExistingShortUrl = new ShortUrl(
         'http://somewhere-else.com',
         'abcd',

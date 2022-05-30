@@ -6,7 +6,7 @@ function apiClient(
   method: TMethod,
   endpoint: string,
   body: unknown = null,
-): Promise<IShortUrl | ErrorResponse> {
+): Promise<IShortUrl | IErrorResponse> {
   const headers = { 'Content-Type': 'application/json' };
   const config = {
     method,
@@ -59,7 +59,7 @@ if (submitButton) {
         shortUrlResult.href = shortUrl.short;
         successWrapper.style.display = 'block';
       })
-      .catch((error: ErrorResponse) => {
+      .catch((error: IErrorResponse) => {
         console.error(error);
         errorWrapper.innerText = Array.isArray(error.message)
           ? error.message.join('<br>')
