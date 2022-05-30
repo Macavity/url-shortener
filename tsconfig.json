@@ -19,6 +19,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"],
-  "exclude": ["src/**/*.spec.ts", "test/"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "client/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "test/", "cypress/**/*"]
 }

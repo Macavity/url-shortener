@@ -61,6 +61,21 @@ Then('the request returns status code {int}', function (number: number) {
   expect(this.response.status).to.equal(number);
 });
 
+/**
+ * Compare a single field with an expected value
+ */
+Then(
+  'the response field {string} equals {string}',
+  function (field: string, text: string) {
+    const received = this.response.body[field];
+
+    expect(received).to.equal(text);
+  },
+);
+
+/**
+ * Compare multiple fields provided in a table
+ */
 Then('the response contains:', function (dataTable: DataTable) {
   for (const row of dataTable.hashes()) {
     const received = this.response.body[row.field];

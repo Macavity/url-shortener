@@ -4,9 +4,6 @@ import { apiUrl } from '../config';
 declare global {
   namespace Cypress {
     interface Chainable {
-      /**
-       * Custom command to reset the cache
-       */
       resetCache(value: string): Chainable<Element>;
     }
   }
