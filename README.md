@@ -1,11 +1,6 @@
 # URL Shortener
 
-A simple implementation of a URL Shortener Service built with:
-- Language: **Node** / **TypeScript**
-- Framework: **NestJS**
-- Two endpoints:
-    - /short-url/encode - Encodes a URL to a shortened URL
-    - /short-url/decode - Decodes a shortened URL to its original URL.
+A simple implementation of a URL Shortener Service build with NestJS and including a very basic user interface.
 
 ## How to use
 
