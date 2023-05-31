@@ -1,19 +1,11 @@
 # URL Shortener
 
-### Task Summary
-
-- ✅ Implement assignment using:
-    - ✅ Language: **Node**
-    - ✅ Framework: **NestJS**
-    - ✅ Two endpoints are required
-        - ✅ /short-url/encode - Encodes a URL to a shortened URL
-        - ✅ /short-url/decode - Decodes a shortened URL to its original URL.
-    - ✅ Both endpoints should return JSON
-- ✅ There is no restriction on how your encode/decode algorithm should work. You just need to make sure that a URL can be 
-  encoded to a short URL and the short URL can be decoded to the original URL. 
-  **You do not need to persist short URLs to a database. Keep them in memory.**
-- ✅ Provide detailed instructions on how to run your assignment in a separate markdown file
-- ✅ Provide API tests for both endpoints
+A simple implementation of a URL Shortener Service built with:
+- Language: **Node** / **TypeScript**
+- Framework: **NestJS**
+- Two endpoints:
+    - /short-url/encode - Encodes a URL to a shortened URL
+    - /short-url/decode - Decodes a shortened URL to its original URL.
 
 ## How to use
 
